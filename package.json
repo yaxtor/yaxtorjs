@@ -1,9 +1,9 @@
 {
-  "name": "yaxtor",
+  "name": "yaxtorjs",
   "version": "1.0.0",
   "description": "ML tunes",
   "main": "index.js",
-  "repository": "github.com/yaxtor",
+  "repository": "github.com/yaxtorjs",
   "author": "Yaismel Miranda <yaismel.miranda@gmail.com>",
   "license": "MIT",
   "scripts": {
