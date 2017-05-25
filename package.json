@@ -1,0 +1,19 @@
+{
+  "name": "yaxtor",
+  "version": "1.0.0",
+  "description": "ML tunes",
+  "main": "index.js",
+  "repository": "github.com/yaxtor",
+  "author": "Yaismel Miranda <yaismel.miranda@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "devDependencies": {
+    "jest": "^20.0.4"
+  },
+  "dependencies": {
+    "d3-dsv": "^1.0.5",
+    "mathjs": "^3.13.1"
+  }
+}
