@@ -6,14 +6,15 @@
   "repository": "github.com/yaxtorjs",
   "author": "Yaismel Miranda <yaismel.miranda@gmail.com>",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "start": "node index.js"
   },
-  "devDependencies": {
-    "jest": "^20.0.4"
+  "engines": {
+    "node": ">=13"
   },
   "dependencies": {
-    "d3-dsv": "^1.0.5",
-    "mathjs": "^3.13.1"
+    "d3-dsv": "^2.0.0",
+    "mathjs": "^9.3.0"
   }
 }

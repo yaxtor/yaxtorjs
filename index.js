@@ -1,47 +1,55 @@
-var yaxtor = yaxtor || {};
-(function(){
-    var _this = this
+import dsv from "d3-dsv";
+import { promises as fsp } from "fs";
+import * as math from "mathjs";
 
-    this.init = function() {
-        var dsv  = require('d3-dsv'),
-            fs   = require('fs'),
-            math = require('mathjs')
+import { computeCost } from "./src/computeCost.js";
+import { gradientDescent } from "./src/gradientDescent.js";
 
-        var data = dsv.csvParseRows(fs.readFileSync("./data/ex1data1.txt", "utf-8"))
-        var m = data.length
-        // console.log(m)
-
-        var X = math.subset(data, math.index(math.range(0, m), 0))
-        var y = math.subset(data, math.index(math.range(0, m), 1))
-        // console.log('X: ', X)
-        // console.log('y: ', y)
-
-        // Gradient Descent...
-        console.log('Running Gradient Descent ...\n')
-
-        // Add a column of ones to x
-        X = math.concat(math.ones([m, 1]), X)
-        // console.log(X)
-
-        // initialize fitting parameters
-        var theta =  math.zeros([2, 1])
-        // console.log(theta) 
-
+class Yaxtor {
+  static async run(options) {
+    try {
+      const {
+        path,
+        encoding = "utf-8",
         // Some gradient descent settings
-        var iterations = 1000;
-        var alpha = 0.01;
+        iterations = 1000,
+        alpha = 0.01,
+      } = options;
 
-        // compute and display initial cost
-        var computeCost = require('./src/computeCost')
-        J = computeCost(X, y, theta)
-        console.log('Initial cost: ', J)
+      // read data
+      const file = await fsp.readFile(path, encoding);
+      const data = dsv.csvParseRows(file);
 
-        // run gradient descent
-        var gradientDescent = require('./src/gradientDescent')
-        var g_result = gradientDescent(X, y, theta, alpha, iterations)
-        console.log('Last cost: ', g_result['J_history'][iterations-1])
+      const m = data.length;
+
+      let X = math.subset(data, math.index(math.range(0, m), 0));
+      const y = math.subset(data, math.index(math.range(0, m), 1));
+
+      // Gradient Descent...
+      console.log("Running Gradient Descent ...\n");
+
+      // Add a column of ones to x
+      X = math.concat(math.ones([m, 1]), X);
+
+      // initialize fitting parameters
+      const theta = math.zeros([2, 1]);
+
+      // compute and display initial cost
+      const J = computeCost(X, y, theta);
+
+      console.log("Initial cost: ", J);
+      console.log("Theta: ", theta, "\n");
+
+      // run gradient descent
+      const result = gradientDescent(X, y, theta, alpha, iterations);
+
+      console.log("Last cost: ", result.J_history[iterations - 1]);
+      console.log("Theta: ", result.theta, "\n");
+    } catch (error) {
+      console.error(error);
     }
-}).apply(yaxtor);
+  }
+}
 
 // Run
-yaxtor.init();
+Yaxtor.run({ path: "./data/ex1data1.txt" });

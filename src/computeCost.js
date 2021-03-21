@@ -1,21 +1,17 @@
-var math = require('mathjs')
+import * as math from "mathjs";
 
 // Compute cost for linear regression
 // - computeCost: computes the cost of using theta as the
 //      parameter for linear regression to fit the data points in X and y
-var computeCost = function (X, y, theta) {
+export function computeCost(X, y, theta) {
+  // number of training examples
+  const m = y.length;
 
-    // Initialize some useful values
-    m = y.length // number of training examples
+  // z = X*theta - y;
+  const z = math.subtract(math.multiply(X, theta), y);
 
-    J = 0
+  // J = (z'*z)/(2*m)
+  const J = math.divide(math.multiply(math.transpose(z), z), 2 * m);
 
-    // z = X*theta - y;
-    z = math.subtract(math.multiply(X, theta), y) 
-
-    // J = (z'*z)/(2*m)
-    J = math.divide(math.multiply(math.transpose(z), z), 2*m) 
-    return J
+  return J;
 }
-
-module.exports = computeCost;
